@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -46,7 +46,7 @@ const oauthProviders: { name: string; provider: Provider; icon: React.ReactNode 
   },
 ];
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -195,5 +195,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white dark:bg-neutral-950 flex items-center justify-center"><div className="w-4 h-4 border-2 border-neutral-300 border-t-neutral-900 rounded-full animate-spin" /></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

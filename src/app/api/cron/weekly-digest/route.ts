@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateDemoData } from "@/lib/demo-data";
 
+// Force dynamic route
+export const dynamic = 'force-dynamic';
+
 // Vercel cron job endpoint — runs every Monday
 // Add to vercel.json: { "crons": [{ "path": "/api/cron/weekly-digest", "schedule": "0 9 * * 1" }] }
 export async function GET(request: NextRequest) {

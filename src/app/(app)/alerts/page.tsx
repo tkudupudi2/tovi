@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Bell, Plus, Trash2, User, TrendingUp, Building2, Users } from "lucide-react";
+import { Bell, Plus, Trash2, User, TrendingUp } from "lucide-react";
 import { AlertRule } from "@/lib/types";
 import { generateDemoAlerts } from "@/lib/demo-data";
 

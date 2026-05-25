@@ -3,7 +3,6 @@ import {
   ToolSummary,
   UserUsageSummary,
   Team,
-  TeamMember,
   OrgRole,
   RoleType,
   TeamSummary,

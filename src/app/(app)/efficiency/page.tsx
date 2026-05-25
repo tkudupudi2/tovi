@@ -37,12 +37,6 @@ const TIER_COLORS: Record<ModelTier, string> = {
   efficient: "bg-emerald-500",
 };
 
-const TIER_TEXT_COLORS: Record<ModelTier, string> = {
-  premium: "text-rose-600 dark:text-rose-400",
-  mid: "text-amber-600 dark:text-amber-400",
-  efficient: "text-emerald-600 dark:text-emerald-400",
-};
-
 const RATING_STYLES: Record<string, { bg: string; text: string; label: string }> = {
   green: { bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-700 dark:text-emerald-400", label: "Efficient" },
   amber: { bg: "bg-amber-50 dark:bg-amber-950/30", text: "text-amber-700 dark:text-amber-400", label: "Review" },
@@ -451,7 +445,7 @@ function UserEfficiencyRowView({
 function SortBtn({
   field,
   current,
-  dir,
+  dir: _dir,
   onSort,
   children,
 }: {

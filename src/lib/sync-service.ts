@@ -23,8 +23,9 @@ async function fetchAnthropicUsage(apiKey: string, orgId: string): Promise<Usage
       return generateMockUsage(orgId, "anthropic", 10000);
     }
 
-    const data = await res.json();
+    const data = await res.json() as { users?: unknown[] };
     // Normalize response — adjust when real schema is known
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data.users || []).map((u: any) => ({
       org_id: orgId,
       user_email: u.email,
@@ -57,7 +58,8 @@ async function fetchCopilotUsage(token: string, orgId: string): Promise<UsageRec
       return generateMockUsage(orgId, "copilot", 3000);
     }
 
-    const data = await res.json();
+    const data = await res.json() as { seats?: unknown[] };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data.seats || []).map((seat: any) => ({
       org_id: orgId,
       user_email: seat.assignee?.login ? `${seat.assignee.login}@github.com` : "unknown@github.com",

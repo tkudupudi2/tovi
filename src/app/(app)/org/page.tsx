@@ -67,7 +67,7 @@ type SortDir = "asc" | "desc";
 
 export default function OrgDashboardPage() {
   const [role, setRole] = useState<RoleType>("vp");
-  const [teamId, setTeamId] = useState<string | null>(null);
+  const [_teamId, setTeamId] = useState<string | null>(null);
   const [vpData, setVpData] = useState<VPDashboardData | null>(null);
   const [dirData, setDirData] = useState<DirectorDashboardData | null>(null);
   const [mgrData, setMgrData] = useState<ManagerDashboardData | null>(null);
@@ -813,7 +813,7 @@ function MgrUserRow({ user }: { user: UserUsageSummary }) {
 function SortButton({
   field,
   current,
-  dir,
+  dir: _dir,
   onSort,
   children,
 }: {

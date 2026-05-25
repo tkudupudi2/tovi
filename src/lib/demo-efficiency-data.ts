@@ -2,7 +2,6 @@ import {
   MODEL_TIERS,
   MODEL_COST_PER_1K,
   getModelTier,
-  ModelTier,
   UserModelBreakdown,
   UserEfficiencyRow,
   TeamModelAggregate,
@@ -84,12 +83,6 @@ const USER_PROFILES: UserProfile[] = [
   // Ghost / low activity
   { email: "emma.wilson@acme.dev", premiumBias: 0.30, avgTokenRange: [300, 500], requestRange: [5, 15] },
   { email: "david.lee@acme.dev", premiumBias: 0.25, avgTokenRange: [400, 600], requestRange: [3, 10] },
-];
-
-const ALL_MODELS = [
-  ...MODEL_TIERS.premium,
-  ...MODEL_TIERS.mid,
-  ...MODEL_TIERS.efficient,
 ];
 
 function generateUserModelBreakdown(profile: UserProfile): UserModelBreakdown[] {

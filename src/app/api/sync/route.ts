@@ -4,7 +4,7 @@ import { TOOL_FETCHERS } from "@/lib/sync-service";
 import { generateDemoData } from "@/lib/demo-data";
 import { ToolName } from "@/lib/types";
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     // Check for demo mode
     const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";

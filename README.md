@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ToVi — Token Visualizer
+
+> A lighthouse guiding you through AI spend
+
+ToVi helps engineering managers track and manage AI tool credit usage across their team. Monitor Windsurf, Claude, and GitHub Copilot from a single dashboard.
+
+## Features
+
+- **Unified Dashboard** — Total spend, per-tool breakdown, sortable user table
+- **Ghost Seat Detection** — Flags users inactive 14+ days in red
+- **Burn Rate Projection** — Predicts credit exhaustion date
+- **Alert Rules** — Set thresholds for user spend and team burn rate
+- **Weekly Digest** — Cron-powered email summary every Monday via Resend
+- **Demo Mode** — Toggle to show realistic fake data for demos
+
+## Tech Stack
+
+- **Next.js 14** with TypeScript and App Router
+- **Tailwind CSS** for styling
+- **Supabase** for database, auth, and row-level security
+- **Resend** for transactional emails
+- **Vercel Cron** for weekly digest
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Copy env and configure
+cp .env.example .env.local
+# Edit .env.local with your Supabase/Resend keys
+# Set NEXT_PUBLIC_DEMO_MODE=true to run without Supabase
+
+# Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the homepage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Mode
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Set `NEXT_PUBLIC_DEMO_MODE=true` in `.env.local` to bypass auth and populate all views with realistic mock data. Toggle demo on/off from the dashboard header.
 
-## Learn More
+## Database Setup
 
-To learn more about Next.js, take a look at the following resources:
+Run `supabase/schema.sql` in your Supabase SQL editor to create:
+- `organizations` — one per account
+- `api_connections` — encrypted API keys per tool
+- `usage_records` — normalized usage data
+- `alert_rules` — threshold-based alert configs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All tables have row-level security policies.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Integrations
 
-## Deploy on Vercel
+| Tool | Endpoint | Status |
+|------|----------|--------|
+| Anthropic | `https://api.anthropic.com/v1/usage` | Mocked (endpoint may not exist yet) |
+| GitHub Copilot | `GET /orgs/{org}/copilot/usage` | Mocked (falls back on error) |
+| Windsurf | No public API | Mocked with realistic data |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All integrations gracefully fall back to mock data if the real API is unavailable.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── (app)/              # Authenticated app shell
+│   │   ├── dashboard/      # Main dashboard
+│   │   ├── alerts/         # Alert rules management
+│   │   └── settings/       # Tool connections
+│   ├── api/
+│   │   ├── dashboard/      # Dashboard data endpoint
+│   │   ├── sync/           # Data sync endpoint
+│   │   ├── alerts/         # Alert CRUD
+│   │   ├── onboarding/     # Onboarding flow
+│   │   └── cron/           # Weekly digest cron
+│   ├── login/              # Auth pages
+│   ├── signup/
+│   ├── onboarding/         # Tool connection wizard
+│   └── page.tsx            # Landing page
+├── components/ui/          # UI components (Tailwind v3)
+└── lib/
+    ├── demo-data.ts        # Mock data generator
+    ├── sync-service.ts     # API integration + mocks
+    ├── types.ts            # TypeScript types
+    └── supabase/           # Supabase client/server/middleware
+```
+
+## Deploy
+
+Deploy to Vercel with the Supabase integration. The `vercel.json` configures the weekly digest cron to run every Monday at 9am UTC.
